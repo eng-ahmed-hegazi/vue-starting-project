@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VueJs</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="app">
+            <div class="row panel panel-primary">
+                <div class="panel-heading">
+                    ADD NEW USER
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-11 ">
+                        <div class="form-group">
+                            <label for="name">Enter Username</label>
+                            <input type="text" id="name" placeholder="Enter Username" v-model="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-11">
+                        <div class="form-group">
+                            <label for="age">Enter Age</label>
+                            <input type="text" id="age" placeholder="Enter Age" v-model="age" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-11">
+                        <div class="form-group">
+                            <label for="job">Enter Job</label>
+                            <input type="text" id="job" placeholder="Enter Job" v-model="job" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-11">
+                        <div class="form-group">
+                            <label for="gender">Select Gender</label>
+                            <select name="gender" id="gender" v-model="gender" class="form-control">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-11">
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" v-bind:disabled="disabledUser" @click="addNewUser">Add New User</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th>No.</th>
+                        <th>Username</th>
+                        <th>Age</th>
+                        <th>Job</th>
+                        <th>Gender</th>
+                    </tr>
+                    <tr v-for="(person,index) in persons">
+                        <td>{{index+1}}</td>
+                        <td>{{person.name}}</td>
+                        <td>{{person.age}}</td>
+                        <td>{{person.job}}</td>
+                        <td>
+                            <span v-if="person.gender == 'female'">
+                                <span class="label label-danger">Female</span>
+                            </span>
+                            <span v-if="person.gender == 'male'">
+                                <span class="label label-primary">Male</span>
+                            </span>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        new Vue({
+            'el' : '#app',
+            'data' : {
+                name : '',
+                age : '',
+                job : '',
+                gender : 'male',
+                persons: [],
+                disable : true
+            },
+            'methods':{
+                addNewUser : function(){
+                    var newPerson ={
+                        name:this.name,
+                        age:this.age,
+                        job:this.job,
+                        gender:this.gender
+                    }
+                    this.persons.push(newPerson);
+                    console.log(this.persons);
+                    this.name = '';
+                    this.age = '';
+                    this.job = '';
+                }
+            },
+            'computed' :{
+                disabledUser :  function (){
+                    if(this.name == ''|| this.age == "" || this.job == ""){
+                        return true;
+                    }else if(this.name.length < 5|| this.age.length < 1 || this.job.length < 5){
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
